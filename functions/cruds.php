@@ -127,7 +127,7 @@ class crud
     public function show_Students()
     {
         try {
-            $sql = "SELECT * FROM students";
+            $sql = "SELECT studentID,firstname,othername,surname,house,department_id,class,sex,dept_id,name FROM students LEFT JOIN department ON department_id = dept_id";
             $result = $this->db->query($sql);
             return $result;
         } catch (PDOException $e) {
@@ -208,7 +208,7 @@ class crud
             if ($stmt->rowCount() > 0) {
                 return false;
             } else {
-                $sql = "INSERT INTO departments (`name`) VALUE (:name)";
+                $sql = "INSERT INTO department (`name`) VALUE (:name)";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':name', $name);
                 $stmt->execute();
@@ -223,7 +223,7 @@ class crud
     public function checkDepartment($name)
     {
         try {
-            $sql = "SELECT * FROM departments WHERE `name` = :name";
+            $sql = "SELECT * FROM department WHERE `name` = :name";
             $stmt = $this->db->prepare($sql);
 
             $stmt->bindParam(':name', $name);
@@ -238,7 +238,7 @@ class crud
     public function department()
     {
         try {
-            $sql = "SELECT * FROM departments";
+            $sql = "SELECT * FROM department";
             $result = $this->db->query($sql);
             return $result;
         } catch (PDOException $e) {
@@ -250,7 +250,7 @@ class crud
     public function delete_dept($id)
     {
         try {
-            $sql = "DELETE FROM departments WHERE departmentID = :departmentID";
+            $sql = "DELETE FROM department WHERE departmentID = :departmentID";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':departmentID', $id);
             $stmt->execute();
@@ -264,7 +264,7 @@ class crud
     public function dept_details($id)
     {
         try {
-            $sql = "SELECT * FROM departments WHERE departmentID = $id";
+            $sql = "SELECT * FROM department WHERE departmentID = $id";
             $result = $this->db->query($sql);
             return $result;
         } catch (PDOException $e) {
@@ -281,7 +281,7 @@ class crud
             if ($stmt->rowCount() > 0) {
                 return false;
             } else {
-                $sql = "UPDATE departments SET `name` = :name WHERE departmentID = :departmentID";
+                $sql = "UPDATE department SET `name` = :name WHERE departmentID = :departmentID";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam('departmentID', $id);
                 $stmt->bindParam(':name', $name);

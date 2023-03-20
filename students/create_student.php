@@ -71,7 +71,7 @@ if (isset($_POST['submit'])) {
                                         <option value="">Select department</option>
                                         <?php while ($r = $results->fetch(PDO::FETCH_ASSOC)) { ?>
 
-                                            <option value="<?php echo $r['departmentID']; ?>"><?php echo $r['name']; ?></option>
+                                            <option value="<?php echo $r['dept_id']; ?>"><?php echo $r['name']; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>

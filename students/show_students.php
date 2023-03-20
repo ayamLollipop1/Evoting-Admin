@@ -32,13 +32,13 @@ $count = 0;
                 $count++; ?>
                 <tr>
                   <th scope="row"><?php echo $count; ?></th>
-                  <td><?php echo ucwords($r['firstname']); ?></td>
-                  <td><?php echo ucwords($r['othername']); ?></td>
-                  <td><?php echo ucwords($r['surname']); ?></td>
-                  <td><?php echo ucwords($r['house']); ?></td>
-                  <td><?php echo ucwords($r['department']); ?></td>
-                  <td><?php echo ucwords($r['class']); ?></td>
-                  <td><?php echo ucwords($r['sex']); ?></td>
+                  <td><?=  ucwords($r['firstname']); ?></td>
+                  <td><?=  ucwords($r['othername']); ?></td>
+                  <td><?= ucwords($r['surname']); ?></td>
+                  <td><?= "House ".ucwords($r['house']); ?></td>
+                  <td><?= ucwords($r['name']); ?></td>
+                  <td><?= ucwords($r['class']); ?></td>
+                  <td><?= ucwords($r['sex']); ?></td>
                   <td>
                     <a href="update_student.php?studentID=<?php echo $r['studentID']; ?>" class="btn btn-success  text-center ">Update</a>
                     <a href="delete_student.php?studentID=<?php echo $r['studentID']; ?>" class="btn btn-danger  text-center ">Delete</a>
