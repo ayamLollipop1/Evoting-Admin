@@ -1,64 +1,106 @@
-<?php require_once '../includes/header.php'; ?>
+<?php
+require_once '../includes/header.php';
+require_once '../functions/code.php';
+$results = $crud->department();
+
+if (isset($_POST['submit'])) {
+    if (
+        empty($_POST['firstname']) || empty($_POST['surname'])
+        || empty($_POST['class']) || empty($_POST['department']) || empty($_POST['sex']) ||
+        empty($_POST['house'])
+    ) {
+        redirects("create_student.php", "Please fill required fields");
+    } else {
+        $firstname = sanitizeInput(ucwords($_POST['firstname']));
+        $othername = sanitizeInput(ucwords($_POST['othername']));
+        $surname = sanitizeInput(ucwords($_POST['surname']));
+        $house = sanitizeInput(ucwords($_POST['house']));
+        $department = sanitizeInput(ucwords($_POST['department']));
+        $class = sanitizeInput(ucwords($_POST['class']));
+        $sex = sanitizeInput(ucwords($_POST['sex']));
+        $uniqueCode = $uniqueCode;
+
+        $sucess = $crud->addStudent($firstname, $othername, $surname, $house, $department, $class, $uniqueCode, $sex);
+        if ($sucess) {
+            redirect("show_student.php", "Student added");
+        } else {
+            redirects("create_student.php", "Student exists");
+        }
+    }
+}
+
+?>
 <div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title mb-5 d-inline">Create Products</h5>
-          <form method="POST" action="" enctype="multipart/form-data">
-            <!-- Email input -->
-            <div class="form-outline mb-4 mt-4">
-              <label>Name</label>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <h5 class="card-header text-center">Add Student</h5>
+                <div class="card-body">
+                    <form method="POST" action="../backends/add_student.php" autocapitalize="yes" autocomplete="no">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="firstname">First name</label>
+                                    <input type="text" name="firstname" id="firstname" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="othername">Other name</label>
+                                    <input type="text" name="othername" id="othername" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="surname">Surname</label>
+                                    <input type="text" name="surname" id="surname" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>House</label>
+                                    <select name="house" class="form-control" required>
+                                        <option value="">Select house</option>
+                                        <option value="house 1">House 1</option>
+                                        <option value="house 2">House 2</option>
+                                        <option value="house 3">House 3</option>
+                                        <option value="house 4">House 4</option>
+                                        <option value="house 5">House 5</option>
+                                        <option value="house 6">House 6</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="department">Department</label>
+                                    <select name="department" class="form-control" id="department" required>
+                                        <option value="">Select department</option>
+                                        <?php while ($r = $results->fetch(PDO::FETCH_ASSOC)) { ?>
 
-              <input type="text" name="name" id="form2Example1" class="form-control" placeholder="name" />
+                                            <option value="<?php echo $r['departmentID']; ?>"><?php echo $r['name']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="class">Class</label>
+                                    <select name="class" id="classs" class="form-control" required>
+                                        <option value="">Select class</option>
+                                        <option value="form 1">Form 1</option>
+                                        <option value="form 2">Form 2</option>
+                                        <option value="form 3">Form 3</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="male">Male</label>
+                                    <input type="radio" value="M" name="sex" id="male">
+                                    <label for="male">Female</label>
+                                    <input type="radio" value="F" name="sex" id="male">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" name="submit" class="btn btn-primary text-center">Save</button>
+                    </form>
+
+                </div>
             </div>
-
-            <div class="form-outline mb-4 mt-4">
-              <label>Price</label>
-
-              <input type="text" name="price" id="form2Example1" class="form-control" placeholder="price" />
-            </div>
-
-            <div class="form-group">
-              <label for="exampleFormControlTextarea1">Description</label>
-              <textarea name="description" placeholder="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Select Category</label>
-              <select name="category_id" class="form-control" id="exampleFormControlSelect1">
-                <option>--select category--</option>
-                <option>Design</option>
-                <option>Programming</option>
-              </select>
-            </div>
-
-            <div class="form-outline mb-4 mt-4">
-              <label>Image</label>
-
-              <input type="file" name="image" id="form2Example1" class="form-control" placeholder="image" />
-            </div>
-
-            <div class="form-outline mb-4 mt-4">
-              <label>File</label>
-              <input type="file" name="file" id="form2Example1" class="form-control" placeholder="file" />
-            </div>
-
-
-            <!-- Submit button -->
-            <button type="submit" name="submit" class="btn btn-primary  mb-4 text-center">create</button>
-
-
-          </form>
-
         </div>
-      </div>
     </div>
-  </div>
 </div>
-<script type="text/javascript">
-
-</script>
-</body>
-
-</html>
+<?php require_once '../includes/footer.php'; ?>

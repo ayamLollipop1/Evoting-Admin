@@ -1,100 +1,103 @@
+<?php
+session_start();
+
+require_once '../config/config.php';
+require_once '../functions/redirect.php';
+
+if (isset($_SESSION['adminID'])) {
+  redirect("../index.php", "You are already logged in");
+}
+
+if (isset($_POST['submit'])) {
+  if (empty($_POST['email']) || empty($_POST['password'])) {
+    redirects("login_admins.php", "Please fill required fields");
+  } else {
+
+    $email = sanitizeInput($_POST['email']);
+    $password = md5($_POST['password']);
+
+    $sucess = $crud->loginAdmin($email, $password);
+    if ($sucess) {
+      redirect("../index.php", "Login successful");
+    } else {
+      redirect("login_admins.php", "No match of credentials");
+    }
+  }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
-    <title>Admin Panel</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-     <link href="../styles/style.css" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <meta charset="utf-8">
+  <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+  <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../styles/style.css" rel="stylesheet">
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <!-- font awsome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Alertify js -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
 </head>
+
 <body>
-<div id="wrapper">
+  <div id="wrapper">
     <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
       <div class="container">
-      <a class="navbar-brand" href="../index.html">LOGO</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <a class="navbar-brand" href="../index.html">LOGO</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarText">
-        <!-- <ul class="navbar-nav side-nav" >
-          <li class="nav-item">
-            <a class="nav-link" style="margin-left: 20px;" href="../index.html">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="admins.html" style="margin-left: 20px;">Admins</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../categories-admins/show-categories.html" style="margin-left: 20px;">Categories</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../posts-admins/show-posts.html" style="margin-left: 20px;">Posts</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" style="margin-left: 20px;">Comments</a>
-          </li> 
+        <div class="collapse navbar-collapse" id="navbarText">
 
-        </ul> -->
-        <ul class="navbar-nav ml-md-auto d-md-flex">
-        <!--   <li class="nav-item">
-            <a class="nav-link" href="../index.html">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link  dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              username
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Logout</a>
-              
-          </li> -->
-          <li class="nav-item">
-            <a class="nav-link" href="login-admins.html">Login
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>           
-          
-        </ul>
+          <ul class="navbar-nav ml-md-auto d-md-flex">
+
+            <li class="nav-item">
+              <a class="nav-link" href="login_admins.php">Login
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
       </div>
-    </div>
     </nav>
-<div class="container-fluid"> 
+    <div class="container-fluid">
       <div class="row">
         <div class="col">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title mt-5">Login</h5>
-              <form method="POST" class="p-auto" action="login.php">
-                  <!-- Email input -->
-                  <div class="form-outline mb-4">
-                    <input type="email" name="email" id="form2Example1" class="form-control" placeholder="Email" />
-                   
-                  </div>
+              <form method="POST" class="p-auto" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>">
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                  <input type="email" name="email" id="form2Example1" class="form-control" placeholder="Email" />
 
-                  
-                  <!-- Password input -->
-                  <div class="form-outline mb-4">
-                    <input type="password" name="password" id="form2Example2" placeholder="Password" class="form-control" />
-                    
-                  </div>
+                </div>
 
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                  <input type="password" name="password" id="form2Example2" placeholder="Password" class="form-control" />
 
+                </div>
 
-                  <!-- Submit button -->
-                  <button type="submit" name="submit" class="btn btn-primary  mb-4 text-center">Login</button>
+                <!-- Submit button -->
+                <button type="submit" name="submit" class="btn btn-primary  mb-4 text-center">Login</button>
 
-                 
-                </form>
+              </form>
 
             </div>
-       </div>
-     </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+
+  </div>
+  <?php require_once '../includes/footer.php'; ?>

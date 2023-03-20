@@ -1,3 +1,16 @@
+<?php 
+session_start();
+require_once '../config/config.php';
+require_once '../functions/redirect.php';
+
+if (!isset($_SESSION['adminID'])) {
+  redirects("auth/login_admins.php", "Please Login");
+}
+
+$id = $_SESSION['adminID'];
+$result = $crud->adminDetails($id);
+$details = $result->fetch(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +23,11 @@
     <link href="../styles/style.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+     <!-- font awsome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Alertify js -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
 </head>
 
 <body>
@@ -56,7 +74,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link  dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                username
+                            <?php echo $details['firstName'] . " " . $details['Surname']; ?>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="../auth/logout_admin.php">Logout</a>

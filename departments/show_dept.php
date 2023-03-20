@@ -1,4 +1,9 @@
-<?php require_once '../includes/header.php'; ?>
+<?php
+require_once '../includes/header.php';
+$results = $crud->department();
+$count = 0;
+
+?>
 <div class="container-fluid">
 
   <div class="row">
@@ -8,6 +13,7 @@
           <h5 class="card-title mb-4 d-inline">Categories</h5>
           <a href="create_dept.php" class="btn btn-primary mb-4 text-center float-right">Add Department</a>
           <table class="table">
+
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -16,26 +22,19 @@
                 <th scope="col">delete</th>
               </tr>
             </thead>
+
             <tbody>
+              <?php while($r = $results->fetch(PDO::FETCH_ASSOC)) {
+                $count++; ?>
               <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td><a href="#" class="btn btn-warning text-white text-center ">Update </a></td>
-                <td><a href="#" class="btn btn-danger  text-center ">Delete </a></td>
+                <th scope="row"><?php echo $count; ?></th>
+                <td><?php echo $r['name']; ?></td>
+                <td><a href="update_dept.php?departmentID=<?php echo $r['departmentID']; ?>" class="btn btn-warning text-white text-center ">Update </a></td>
+                <td><a href="delete_dept.php?departmentID=<?php echo $r['departmentID']; ?>" class="btn btn-danger  text-center ">Delete </a></td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td><a href="#" class="btn btn-warning text-white text-center">Update </a></td>
-                <td><a href="#" class="btn btn-danger  text-center ">Delete </a></td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td><a href="#" class="btn btn-warning text-white text-center ">Update </a></td>
-                <td><a href="#" class="btn btn-danger text-center">Delete </a></td>
-              </tr>
+              <?php } ?>
             </tbody>
+
           </table>
         </div>
       </div>
@@ -45,9 +44,4 @@
 
 
 </div>
-<script type="text/javascript">
-
-</script>
-</body>
-
-</html>
+<?php require_once '../includes/footer.php';

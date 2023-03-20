@@ -13,7 +13,7 @@ try {
     $e->getMessage();
 }
 
-require_once '../functions/cruds.php';
+require_once 'functions/cruds.php';
 $crud = new crud($pdo);
 
 

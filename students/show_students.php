@@ -1,49 +1,50 @@
-<?php require_once '../includes/header.php'; ?>
+<?php
+require_once '../includes/header.php';
+$results = $crud->show_Students();
+$count = 0;
+?>
 <div class="container-fluid">
 
   <div class="row">
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title mb-4 d-inline">Products</h5>
+          <h5 class="card-title mb-4 d-inline">Students</h5>
           <a href="create_student.php" class="btn btn-primary mb-4 text-center float-right">Add Student</a>
 
           <table class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">product</th>
-                <th scope="col">price in $</th>
-                <th scope="col">category</th>
-                <th scope="col">status</th>
-                <th scope="col">delete</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Other Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">House</th>
+                <th scope="col">Department</th>
+                <th scope="col">Class</th>
+                <th scope="col">Sex</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
+
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>python book</td>
-                <td>20</td>
-                <td>development</td>
-                <td><a href="#" class="btn btn-success  text-center ">verfied</a></td>
-                <td><a href="#" class="btn btn-danger  text-center ">delete</a></td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>laravel for advanced devs</td>
-                <td>40</td>
-                <td>development</td>
-                <td><a href="#" class="btn btn-success  text-center ">verfied</a></td>
-                <td><a href="#" class="btn btn-danger  text-center ">delete</a></td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>ruby for stars</td>
-                <td>34</td>
-                <td>development</td>
-                <td><a href="#" class="btn btn-danger  text-center ">unverfied</a></td>
-                <td><a href="#" class="btn btn-danger  text-center ">delete</a></td>
-              </tr>
+              <?php while ($r = $results->fetch(PDO::FETCH_ASSOC)) {
+                $count++; ?>
+                <tr>
+                  <th scope="row"><?php echo $count; ?></th>
+                  <td><?php echo ucwords($r['firstname']); ?></td>
+                  <td><?php echo ucwords($r['othername']); ?></td>
+                  <td><?php echo ucwords($r['surname']); ?></td>
+                  <td><?php echo ucwords($r['house']); ?></td>
+                  <td><?php echo ucwords($r['department']); ?></td>
+                  <td><?php echo ucwords($r['class']); ?></td>
+                  <td><?php echo ucwords($r['sex']); ?></td>
+                  <td>
+                    <a href="update_student.php?studentID=<?php echo $r['studentID']; ?>" class="btn btn-success  text-center ">Update</a>
+                    <a href="delete_student.php?studentID=<?php echo $r['studentID']; ?>" class="btn btn-danger  text-center ">Delete</a>
+                  </td>
+                </tr>
+              <?php } ?>
             </tbody>
           </table>
         </div>
@@ -54,9 +55,4 @@
 
 
 </div>
-<script type="text/javascript">
-
-</script>
-</body>
-
-</html>
+<?php require_once '../includes/footer.php'; ?>
