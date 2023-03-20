@@ -29,8 +29,8 @@ $count = 0;
               <tr>
                 <th scope="row"><?php echo $count; ?></th>
                 <td><?php echo $r['name']; ?></td>
-                <td><a href="update_dept.php?departmentID=<?php echo $r['departmentID']; ?>" class="btn btn-warning text-white text-center ">Update </a></td>
-                <td><a href="delete_dept.php?departmentID=<?php echo $r['departmentID']; ?>" class="btn btn-danger  text-center ">Delete </a></td>
+                <td><a href="update_dept.php?dept_id=<?php echo $r['dept_id']; ?>" class="btn btn-warning text-white text-center ">Update </a></td>
+                <td><a href="delete_dept.php?dept_id=<?php echo $r['dept_id']; ?>" class="btn btn-danger  text-center ">Delete </a></td>
               </tr>
               <?php } ?>
             </tbody>

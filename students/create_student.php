@@ -57,12 +57,12 @@ if (isset($_POST['submit'])) {
                                     <label>House</label>
                                     <select name="house" class="form-control" required>
                                         <option value="">Select house</option>
-                                        <option value="house 1">House 1</option>
-                                        <option value="house 2">House 2</option>
-                                        <option value="house 3">House 3</option>
-                                        <option value="house 4">House 4</option>
-                                        <option value="house 5">House 5</option>
-                                        <option value="house 6">House 6</option>
+                                        <option value="1">House 1</option>
+                                        <option value="2">House 2</option>
+                                        <option value="3">House 3</option>
+                                        <option value="4">House 4</option>
+                                        <option value="5">House 5</option>
+                                        <option value="6">House 6</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -79,9 +79,9 @@ if (isset($_POST['submit'])) {
                                     <label for="class">Class</label>
                                     <select name="class" id="classs" class="form-control" required>
                                         <option value="">Select class</option>
-                                        <option value="form 1">Form 1</option>
-                                        <option value="form 2">Form 2</option>
-                                        <option value="form 3">Form 3</option>
+                                        <option value="1">Form 1</option>
+                                        <option value="2">Form 2</option>
+                                        <option value="3">Form 3</option>
                                     </select>
                                 </div>
 

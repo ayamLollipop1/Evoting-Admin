@@ -7,7 +7,7 @@ session_start();
 if (isset($_POST['submit'])) {
     if (
         empty($_POST['firstname']) || empty($_POST['surname']) || empty($_POST['house']) ||
-        empty($_POST['department']) || empty($_POST['class'])
+        empty($_POST['department']) || empty($_POST['class']) || empty($_POST['sex'])
     ) {
         redirects("../students/create_student.php", "Please fill required fields");
     } else {
@@ -30,14 +30,14 @@ if (isset($_POST['submit'])) {
         } else {
 
             $checks = $pdo->prepare("SELECT * FROM students WHERE firstname = ? AND othername = ? AND surname = ? 
-            AND class = ? AND department = ? AND sex = ? AND house = ?");
+            AND class = ? AND department_id = ? AND sex = ? AND house = ?");
             $checks->execute([$firstname, $othername, $surname, $class, $department, $sex, $house]);
 
             if ($checks->rowCount() > 0) {
                 redirects("../students/create_student.php", "Student already exist");
             } else {
 
-                $insert = $pdo->prepare("INSERT INTO students (firstname, othername, surname, house, department, class,
+                $insert = $pdo->prepare("INSERT INTO students (firstname, othername, surname, house, department_id, class,
             uniqueCode, sex) VALUES (:firstname, :othername, :surname, :house, :department_id, :class, :uniqueCode, :sex)");
 
                 $insert->bindParam(':firstname', $firstname);

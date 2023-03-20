@@ -3,8 +3,8 @@ session_start();
 require_once '../config/config.php';
 require_once '../functions/redirect.php';
 
-if (isset($_GET['departmentID'])) {
-    $id = $_GET['departmentID'];
+if (isset($_GET['dept_id'])) {
+    $id = $_GET['dept_id'];
 
     $delete = $crud->delete_dept($id);
     if ($delete) {

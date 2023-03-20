@@ -4,11 +4,13 @@ require_once '../includes/header.php';
 if (isset($_GET['studentID'])) {
     $id = $_GET['studentID'];
 
-    $details = $pdo->prepare("SELECT * FROM students s inner join departments d on s.department = d.departmentID WHERE studentID=$id");
-    // $details = $conn->prepare("SELECT studentID,firstname,othername,surname,house,department_id,class,sex,uniqueCode,dept_id,name FROM students LEFT JOIN department ON department_id = dept_id WHERE studentID = '$id'");
+    $details = $pdo->prepare("SELECT studentID,firstname,othername,surname,house,department_id,class,sex,dept_id,name FROM students LEFT JOIN department ON department_id = dept_id WHERE studentID = $id");
     $details->execute();
     $data = $details->fetch(PDO::FETCH_ASSOC);
 }
+
+$department = $pdo->prepare("SELECT * FROM department");
+$department->execute();
 
 // if (isset($_POST['submit'])) {
 //     if (
@@ -51,7 +53,7 @@ if (isset($_GET['studentID'])) {
             <div class="card">
                 <h5 class="card-header">Update Student's record</h5>
                 <div class="card-body">
-                    <form method="POST" action="../backends/update-student.php?studentID=<?php echo $data['studentID']; ?>" autocapitalize="yes" autocomplete="no">
+                    <form method="POST" action="../backends/update_student.php?studentID=<?php echo $data['studentID']; ?>" autocapitalize="yes" autocomplete="no">
                         <div class="row">
                             <div class="col-md-6">
                                 <input type="hidden" name="studentID" value="<?php echo $data['studentID']; ?>">
@@ -61,7 +63,7 @@ if (isset($_GET['studentID'])) {
                                 </div>
                                 <div class="form-group">
                                     <label for="othername">Other name</label>
-                                    <input type="text" value="<?php echo $data['othername']; ?>" name=" othername" id="othername" class="form-control" />
+                                    <input type="text" value="<?php echo $data['firstname']; ?>" name="othername" id="othername" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                     <label for="surname">Surname</label>
@@ -72,18 +74,18 @@ if (isset($_GET['studentID'])) {
                                 <div class="form-group">
                                     <label>House</label>
                                     <select name="house" class="form-control" required>
-                                        <option value="<?php echo $data['house']; ?>"><?php echo $data['house']; ?></option>
-                                        <option value="1">house 1</option>
-                                        <option value="2">house 2</option>
-                                        <option value="3">house 3</option>
-                                        <option value="4">house 4</option>
-                                        <option value="5">house 5</option>
-                                        <option value="6">house 6</option>
+                                        <option value="<?php echo $data['house']; ?>"><?= "House " . $data['house']; ?></option>
+                                        <option value="1">House 1</option>
+                                        <option value="2">House 2</option>
+                                        <option value="3">House 3</option>
+                                        <option value="4">House 4</option>
+                                        <option value="5">House 5</option>
+                                        <option value="6">House 6</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="department">Department</label>
-                                    <select name="department_id" class="form-control" id="department" required>
+                                    <select name="department" class="form-control" id="department" required>
                                         <option value="<?php echo $data['dept_id']; ?>"><?php echo $data['name']; ?></option>
                                         <?php if ($department->rowCount() > 0) {
                                             foreach ($department as $row) : ?>
@@ -95,10 +97,10 @@ if (isset($_GET['studentID'])) {
                                 <div class="form-group">
                                     <label for="class">Class</label>
                                     <select name="class" id="classs" class="form-control" required>
-                                        <option value="<?php echo $data['class']; ?>"><?php echo $data['class']; ?></option>
-                                        <option value="form 1">Form 1</option>
-                                        <option value="form 2">Form 2</option>
-                                        <option value="form 3">Form 3</option>
+                                        <option value="<?php echo $data['class']; ?>"><?= "Form " . $data['class']; ?></option>
+                                        <option value="1">Form 1</option>
+                                        <option value="2">Form 2</option>
+                                        <option value="3">Form 3</option>
                                     </select>
                                 </div>
 
@@ -123,6 +125,3 @@ if (isset($_GET['studentID'])) {
     </div>
 </div>
 <?php require "../includes/footer.php"; ?>
-</body>
-
-</html>

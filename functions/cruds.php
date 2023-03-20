@@ -139,18 +139,19 @@ class crud
     public function checkStudent($firstname, $othername, $surname, $house, $department, $class, $sex)
     {
         try {
-            $sql = "SELECT * FROM students WHERE `firstname` = ?, othername = ?, surname = ?, house = ?, department = ?, class = ?, sex = ?";
+            $sql = "SELECT * FROM students WHERE `firstname` = :firstname, othername = :othername, surname = :surname, house = :house,
+             department = :department, class = :class, sex = :sex";
             $stmt = $this->db->prepare($sql);
 
-            // $stmt->bindParam(':firstname', $firstname);
-            // $stmt->bindParam(':othername', $othername);
-            // $stmt->bindParam(':surname', $surname);
-            // $stmt->bindParam(':department', $department);
-            // $stmt->bindParam(':class', $class);
-            // $stmt->bindParam(':house', $house);
-            // $stmt->bindParam(':sex', $sex);
-
-            $stmt->execute([$firstname, $othername, $surname, $house, $department, $class, $sex]);
+            $stmt->bindParam(':firstname', $firstname);
+            $stmt->bindParam(':othername', $othername);
+            $stmt->bindParam(':surname', $surname);
+            $stmt->bindParam(':department', $department);
+            $stmt->bindParam(':class', $class);
+            $stmt->bindParam(':house', $house);
+            $stmt->bindParam(':sex', $sex);
+            $stmt->execute();
+            // $stmt->execute([$firstname, $othername, $surname, $house, $department, $class, $sex]);
             return $stmt;
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -161,9 +162,9 @@ class crud
     public function addStudent($firstname, $othername, $surname, $house, $department, $class, $uniqueCode, $sex)
     {
         try {
-            $results = $this->checkStudent($firstname, $othername, $surname, $house, $department, $class, $sex);
+            $stmt = $this->checkStudent($firstname, $othername, $surname, $house, $department, $class, $sex);
 
-            if ($results->rowCount() > 0) {
+            if($stmt->rowCount() > 0) {
                 return false;
             } else {
                 $sql = "INSERT INTO students (firstname,othername,surname,house,department,class,uniqueCode,sex)
@@ -250,7 +251,7 @@ class crud
     public function delete_dept($id)
     {
         try {
-            $sql = "DELETE FROM department WHERE departmentID = :departmentID";
+            $sql = "DELETE FROM department WHERE dept_id = :departmentID";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':departmentID', $id);
             $stmt->execute();
@@ -264,7 +265,7 @@ class crud
     public function dept_details($id)
     {
         try {
-            $sql = "SELECT * FROM department WHERE departmentID = $id";
+            $sql = "SELECT * FROM department WHERE dept_id = $id";
             $result = $this->db->query($sql);
             return $result;
         } catch (PDOException $e) {
@@ -281,7 +282,7 @@ class crud
             if ($stmt->rowCount() > 0) {
                 return false;
             } else {
-                $sql = "UPDATE department SET `name` = :name WHERE departmentID = :departmentID";
+                $sql = "UPDATE department SET `name` = :name WHERE dept_id = :departmentID";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam('departmentID', $id);
                 $stmt->bindParam(':name', $name);

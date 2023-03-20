@@ -1,10 +1,10 @@
 <?php
 require_once '../includes/header.php';
 
-if (!isset($_GET['departmentID'])) {
+if (!isset($_GET['dept_id'])) {
   redirects("show_dept.php", "Failed to get details");
 } else {
-  $id = $_GET['departmentID'];
+  $id = $_GET['dept_id'];
   $result = $crud->dept_details($id);
   $r = $result->fetch(PDO::FETCH_ASSOC);
 }
@@ -13,13 +13,13 @@ if (isset($_POST['submit'])) {
   $id = $_POST['id'];
   $name = sanitizeInput(ucwords($_POST['name']));
   if (empty($_POST['name'])) {
-    redirects("update_dept.php?departmentID=$id", "Please fill required fields");
+    redirects("update_dept.php?dept_id=$id", "Please fill required fields");
   } else {
     $sucess = $crud->update_dept($id, $name);
     if ($sucess) {
       redirect("show_dept.php", "Department updated");
     } else {
-      redirects("update_dept.php?departmentID=$id", "Please make changes");
+      redirects("update_dept.php?dept_id=$id", "Please make changes");
     }
   }
 }
@@ -31,11 +31,11 @@ if (isset($_POST['submit'])) {
       <div class="card">
         <div class="card-body">
           <h5 class="card-title mb-5 d-inline">Update Department</h5>
-          <form method="POST" action="update_dept.php?departmentID=<?php echo $r['departmentID']; ?>" autocomplete="no" autocapitalize="yes">
+          <form method="POST" action="update_dept.php?dept_id=<?php echo $r['dept_id']; ?>" autocomplete="no" autocapitalize="yes">
             <!-- Email input -->
 
             <div class="form-outline mb-4 mt-4">
-              <input type="hidden" value="<?php echo $r['departmentID']; ?>" name="id">
+              <input type="hidden" value="<?php echo $r['dept_id']; ?>" name="id">
               <input type="text" value="<?php echo $r['name']; ?>" name="name" id="form2Example1" class="form-control" placeholder="name" />
             </div>
 

@@ -37,7 +37,7 @@ $count = 0;
                   <td><?= ucwords($r['surname']); ?></td>
                   <td><?= "House ".ucwords($r['house']); ?></td>
                   <td><?= ucwords($r['name']); ?></td>
-                  <td><?= ucwords($r['class']); ?></td>
+                  <td><?= "Form ".ucwords($r['class']); ?></td>
                   <td><?= ucwords($r['sex']); ?></td>
                   <td>
                     <a href="update_student.php?studentID=<?php echo $r['studentID']; ?>" class="btn btn-success  text-center ">Update</a>
