@@ -63,7 +63,7 @@ $department->execute();
                                 </div>
                                 <div class="form-group">
                                     <label for="othername">Other name</label>
-                                    <input type="text" value="<?php echo $data['firstname']; ?>" name="othername" id="othername" class="form-control" />
+                                    <input type="text" value="<?php echo $data['othername']; ?>" name="othername" id="othername" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                     <label for="surname">Surname</label>
