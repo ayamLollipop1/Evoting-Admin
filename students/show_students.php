@@ -41,7 +41,7 @@ $count = 0;
                   <td><?= ucwords($r['sex']); ?></td>
                   <td>
                     <a href="update_student.php?studentID=<?php echo $r['studentID']; ?>" class="btn btn-success  text-center ">Update</a>
-                    <a href="delete_student.php?studentID=<?php echo $r['studentID']; ?>" class="btn btn-danger  text-center ">Delete</a>
+                    <a href="../backends/delete_student.php?studentID=<?php echo $r['studentID']; ?>" class="btn btn-danger  text-center ">Delete</a>
                   </td>
                 </tr>
               <?php } ?>
@@ -51,8 +51,5 @@ $count = 0;
       </div>
     </div>
   </div>
-
-
-
 </div>
 <?php require_once '../includes/footer.php'; ?>
